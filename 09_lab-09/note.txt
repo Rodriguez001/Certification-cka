@@ -8,7 +8,7 @@ kubectl apply -f .
 
 kubectl get svc -n ingress-nginx -o wide
 # get external IP of ingress-nginx-controller service loadbalancer 
-# update hosts file with : 192.168.99.150 pozos.eazytraining.fr
+# update hosts file with : 192.168.56.150 pozos.eazytraining.fr
 
 kubectl delete -f .
 

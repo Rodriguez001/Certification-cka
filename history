@@ -1,0 +1,54 @@
+# Manipulation sur les hitoriques d'un deployement
+
+kubectl create -f [nom-deployement]
+# update a deployment
+
+kubectl apply -f [file]
+
+kubectk set image deployment/nom-deployment nom-container=[nouvelle-image]
+
+# See status
+
+kubectl rollout status deployment/[nom-deployement]
+kubectl rollout history deployment/[nom-deployment]
+kubectl rollout undo deployment/[nom-deployment]
+
+# pour scaler un deployement
+
+kubectl scale --replicas=3 -f [deployment-filename]
+# voir les details sur le pod
+kubectl get po -o wide
+
+# faire evoluer la version ou changer le tag
+kubectl set image deployment/[nom-deployment] [nom-container]=image:tag
+kubectl set image deloyment/pozos-website php=php:apache-bullseye
+
+# pour voir les revision
+kubectl rollout history deployment/pozos-website --revision=2
+
+# kubernetes version upgrade
+# On master node
+kubectl drain master --ignore-daemonsets
+apt update
+apt install kubeadm=1.19.0-00
+kubeadm upgrade apply v1.19.0-00
+apt install kubelet=1.19.0-00
+systemctl restart kubelet
+kubectl uncordon master
+
+# Now on any node
+#first on master
+kubectl drain node --ignore-daemonsets
+ssh node
+apt install kubeadm=1.19.0-00
+kubeadm upgrade node
+apt install kubelet=1.19.0-00
+systemctl restart kubelet
+kubelet uncordon node
+
+
+
+
+
+
+
